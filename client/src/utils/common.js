@@ -1,6 +1,6 @@
 const getCurrentTime = () => {
     const date = new Date()
-    return padStartTime(date.getHours()) + ':' + padStartTime(date.getMinutes())
+    return padStartTime(date.getHours()) + ':' + padStartTime(date.getMinutes());
 }
 const padStartTime = (time)=>time.toString().padStart(2,'0')
 

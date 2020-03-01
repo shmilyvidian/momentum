@@ -25,14 +25,6 @@ export default {
             return this.userName ? `What's your email, ${this.userName}` : 'Hello, what\'s your name?'
         }
     },
-    directives: {
-        focus: {
-            // 指令的定义
-            inserted: function (el) {
-                el.focus()
-            }
-        }
-    },
     methods: {
         async submit (key){
             // eslint-disable-next-line no-console

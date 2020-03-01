@@ -46,7 +46,8 @@ const get = (url, data) => request.get( url, { params: data })
 
 const httpRequest = async ({ method = 'post', params, url }, callback) => {
     const data =  method === 'get' ? await get(url, { ...params }) : await request[method || 'post'](url, {...params})
-    if(data.code !== 0){
+    // eslint-disable-next-line no-console
+    if(data.code !== 200){
 
       // Taro.showToast({{ title: '网络异常', icon: 'none', duration: 2000 });
       return

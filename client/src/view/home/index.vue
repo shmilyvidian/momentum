@@ -1,38 +1,75 @@
 <template>
     <div class="home">
+        <div class="home_weather">{{weather}}</div>
         <div class="home_container">
             <p class="home_container_clock">{{currentTime}}</p>
             <p class="home_container_message">{{currentMessage}}</p>
             <div class="home_container_question">
             <p>What is your main focus for today?</p>
-            <input type="text" v-focus v-model="mainFoucs" @keyup.enter="submit('mainFoucs')">
+            <input type="text"  v-focus  v-model="mainFoucs" @keyup.enter="submit('mainFoucs')">
         </div>
         </div>
     </div>
 </template>
 <script>
 import { getCurrentTime, getSayHiMessage } from '@/utils/common'
+import {
+  mapActions,
+} from 'vuex'
 export default {
     name:'Home',
     data(){
         return{
-            mainFoucs: ''
+            currentTime: getCurrentTime(),
+            mainFoucs: '',
+            timer:'',
+            timer_time:''
         }
     },
     computed: {
-        currentTime:function(){
-            return getCurrentTime()
-        },
         currentMessage:function(){
             return getSayHiMessage() + 'Alice'
-        }
+        },
+        weather: {
+      get() {
+        return this.$store.state.home.weather
+      },
+      set() {}
+    },
+    },
+    mounted() {
+       this.timer = setInterval(()=>{
+           this.getWeather({city: 'shenzhen'});
+       }, 1000*3600) 
+       this.timer_time = setInterval(()=>{
+           this.currentTime = getCurrentTime()
+       }, 1000) 
+    },
+    beforeDestroy() {
+        clearInterval(this.timer);          
+        clearInterval(this.timer_time);        
+      
+        this.timer = null;
+        this.timer_time = null
+        this.$once('hook:beforeDestroy', () => {            
+            clearInterval(this.timer);  
+            clearInterval(this.timer_time);                                                          
+        })
+    },
+    methods: {
+        ...mapActions([
+      'getWeather'
+     ]),
     },
 }
 </script>
 
 <style lang="less" scope>
     .home{
-         color: #fff;
+        color: #fff;
+        &_weather{
+            text-align: right
+        }
         &_container{
             position: absolute;
             top: 50%;
