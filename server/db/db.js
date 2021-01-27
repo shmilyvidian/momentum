@@ -1,12 +1,11 @@
 const mongoose = require('mongoose')
+const { config } = require('../constant/config')
 
-const DB_URL = 'mongodb://localhost:27017/todolist'
-
-mongoose.connect(DB_URL)
+mongoose.connect(config.DB_URL)
 
 
 mongoose.connection.on('connected',function() {
-    console.log('Mongoose connection open to '+DB_URL);
+    console.log('Mongoose connection open to '+config.DB_URL);
  });
  /**
  * 连接异常 error 数据库连接错误

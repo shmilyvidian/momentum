@@ -22,8 +22,6 @@ export default {
         return{
             currentTime: getCurrentTime(),
             mainFoucs: '',
-            timer:'',
-            timer_time:''
         }
     },
     computed: {
@@ -31,35 +29,31 @@ export default {
             return getSayHiMessage() + 'Alice'
         },
         weather: {
-      get() {
-        return this.$store.state.home.weather
-      },
-      set() {}
-    },
+            get() {
+                return this.$store.state.home.weather
+            },
+            set() {}
+            },
     },
     mounted() {
-       this.timer = setInterval(()=>{
-           this.getWeather({city: 'shenzhen'});
-       }, 1000*3600) 
-       this.timer_time = setInterval(()=>{
+    this.getWeather({city: 'shenzhen'});
+       const timer_time = setInterval(()=>{
            this.currentTime = getCurrentTime()
-       }, 1000) 
-    },
-    beforeDestroy() {
-        clearInterval(this.timer);          
-        clearInterval(this.timer_time);        
-      
-        this.timer = null;
-        this.timer_time = null
-        this.$once('hook:beforeDestroy', () => {            
-            clearInterval(this.timer);  
-            clearInterval(this.timer_time);                                                          
+       }, 1000)
+        this.$once('hook:beforeDestroy', () => {
+            clearInterval(timer);
+            clearInterval(timer_time);
         })
     },
+
     methods: {
         ...mapActions([
       'getWeather'
      ]),
+     submit(){
+         // eslint-disable-next-line no-console
+          this.$store.dispatch('getUserInfo',{ email: 'shmilyvidian@163.com'});
+     }
     },
 }
 </script>

@@ -11,18 +11,26 @@
     </div>
 </template>
 <script>
+import { Observable } from 'rxjs';
+
 export default {
     name:'Register',
     data(){
         return {
             userName:'',
             email:'',
-            flag: true
+            flag: true,
+            observable_text: Observable.of('hello rxjs')
         }
     },
     computed: {
         question_title: function(){
             return this.userName ? `What's your email, ${this.userName}` : 'Hello, what\'s your name?'
+        }
+    },
+    subscriptions () {
+        return {
+        observable_text: Observable.of('hello world')
         }
     },
     methods: {

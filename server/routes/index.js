@@ -6,6 +6,7 @@ const graphqlHTTP = require("koa-graphql");
 const schema = require("../graphql/schema");
 const router = new Router();
 
+
 export default (app) => {
     router.use('/user', User.routes(), User.allowedMethods())
     router.use('/weather', Weather.routes(), Weather.allowedMethods())

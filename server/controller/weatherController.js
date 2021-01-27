@@ -1,7 +1,5 @@
 const weather = require('../utils/weather') 
 const getWeatherMessage = async (ctx, next) => {
-    console.log(city,'city')
-
     const { city  } = ctx.query
     if(!city) {
         ctx.status = 400

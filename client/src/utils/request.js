@@ -15,7 +15,7 @@ const request = axios.create({
 
 request.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
-  NProgress.start() 
+  NProgress.start()
   config.headers = {
     'token': Cookies.get('userToken'),
   }
@@ -28,7 +28,7 @@ request.interceptors.request.use(function (config) {
 // 添加响应拦截器
 request.interceptors.response.use(function (response) {
   // 只返回数据
-  NProgress.done() 
+  NProgress.done()
   return response.data
 }, function (error) {
   // const status = error.response.status;

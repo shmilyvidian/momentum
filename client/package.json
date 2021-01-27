@@ -26,6 +26,9 @@
     "eslint-plugin-vue": "^5.0.0",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
+    "rxjs": "^6.5.4",
+    "rxjs-compat": "^6.5.4",
+    "vue-rx": "^6.2.0",
     "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {
