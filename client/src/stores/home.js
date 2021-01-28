@@ -1,7 +1,7 @@
 import API from '@/api'
 
 const home = {
-    state: { userToken: '', weather:'' },
+    state: { weather:'' },
     mutations: {
         setState(state, playload){
             const {data, key} = playload;
@@ -13,7 +13,7 @@ const home = {
             const data =  await API.weather.getWeather(param) || '多云'
             // eslint-disable-next-line no-console
             console.log(await API.weather.getWeather(param),'data')
-            context.commit('setState',{data,key:'weather'});
+            context.commit('setState',{data, key:'weather'});
             return data
         },
         async getUserInfo (context,param){

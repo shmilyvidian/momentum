@@ -1,35 +1,35 @@
 const uuidv1 = require('uuid/v1');
 const UserModel = require('../model/UserModel')
-const userId = uuidv1();
 import jwt from 'jsonwebtoken'
-const { config } = require('../constant/config')
+const { secret } = require('../constant/config')
 
 const resigter = async (ctx, next) => {
     const req = ctx.request.body;
     const { userName, email  } = req
     const userInfo = await getUserInfo(email)
-    if(userInfo){
+    if(userInfo.length){
         ctx.body = {
-            code: 200,
-            message: 'email已经被注册',
+            code: 201,
+            message: 'Email已经被注册',
             data: true
         }
-        return
+        return false
     }
+    console.log(ctx.request.body, userName , email)
     if(userName && email){
         const user = {
             userName,
-            userId,
             email,
         }
         UserModel.create(user)
         ctx.status = 200
-        let token = jwt.sign(user, config.SECRET, { expiresIn: '1h' }) 
+        let token = jwt.sign(user, secret, { expiresIn: '2h' }) 
         ctx.body = {
             code: 200,
             message: '新增用户成功',
             data: {
-                token
+                token,
+                user
             }
         }
     }else{

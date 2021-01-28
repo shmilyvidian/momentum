@@ -25,8 +25,8 @@ export default {
         }
     },
     computed: {
-        currentMessage:function(){
-            return getSayHiMessage() + 'Alice'
+        currentMessage: function(){
+            return getSayHiMessage() + (this.$store.state.userManage.userInfo.userName || '')
         },
         weather: {
             get() {
@@ -36,16 +36,15 @@ export default {
             },
     },
     mounted() {
-    this.getWeather({city: 'shenzhen'});
+        this.getWeather({city: 'shenzhen'})
        const timer_time = setInterval(()=>{
            this.currentTime = getCurrentTime()
        }, 1000)
         this.$once('hook:beforeDestroy', () => {
-            clearInterval(timer);
+            // clearInterval(timer);
             clearInterval(timer_time);
         })
     },
-
     methods: {
         ...mapActions([
       'getWeather'

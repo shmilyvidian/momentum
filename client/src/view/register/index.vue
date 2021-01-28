@@ -12,6 +12,7 @@
 </template>
 <script>
 import { Observable } from 'rxjs';
+import Cookies from 'js-cookie'
 
 export default {
     name:'Register',
@@ -33,14 +34,23 @@ export default {
         observable_text: Observable.of('hello world')
         }
     },
+    mounted(){
+        Cookies.get('userToken') && (this.$router.push('home'))
+    },
     methods: {
         async submit (key){
             // eslint-disable-next-line no-console
             this.flag = false
             this[key] = this[key]
             if(key === 'email'){
-                await this.$store.dispatch('register',{userName: this.userName, email: this.email});
-                this.$router.push('home')
+                const result = await this.$store.dispatch('register',{userName: this.userName, email: this.email});
+                if(!result){
+                    this.userName = ''
+                    this.email = ''
+                    this.flag = true
+                }else{
+                    this.$router.push('home')
+                }
             }
         }
     },

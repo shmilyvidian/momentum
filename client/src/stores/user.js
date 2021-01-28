@@ -2,14 +2,21 @@ import API from '@/api'
 import Cookies from 'js-cookie'
 
 const user = {
-    state: { userToken: '',  },
+    state: { userToken: '', userInfo: {} },
     mutations: {
-
+        setState (state, {key, value}) {
+            // 变更状态
+            state[key] = value
+          }
     },
     actions: {
         async register (context,param){
             const res =  await API.user.register(param)
-            Cookies.set('userToken','bearer ' + res['token'])
+            if(res){
+                context.commit('setState',{key:'userInfo', value: res['user']} )
+                Cookies.set('userToken','Bearer ' + res['token'])
+            }
+            
             return res
         }
     }

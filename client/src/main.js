@@ -4,7 +4,7 @@ import router from './routers'
 import store from './stores/';
 import VueRx from 'vue-rx'
 import Rx from 'rxjs/Rx'
-
+import './plugins/element'
 import focus from './directives/focus'
 require('./styles/reset.css');
 

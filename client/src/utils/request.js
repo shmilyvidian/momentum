@@ -2,13 +2,14 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import NProgress from 'nprogress' // 进度条
 import 'nprogress/nprogress.css'
+import { Message } from 'element-ui';
 
 // 创建axios请求实例
 const request = axios.create({
   baseURL: 'http://localhost:5000', // 设置跨域代理接口统一的前置地址
   timeout: 5000,
   headers: {
-    'Content-Type': 'application/json; multipart/form-data',
+    'Content-Type': 'application/json',
     "withCredentials": true
   }
 })
@@ -16,9 +17,11 @@ const request = axios.create({
 request.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
   NProgress.start()
-  config.headers = {
-    'token': Cookies.get('userToken'),
+  if(Cookies.get('userToken')){
+    config.headers.common['Authorization'] = Cookies.get('userToken');
   }
+  // config.headers['Content-Type'] = 'application/json; multipart/form-data'
+
   return config
 }, function (error) {
   // 对请求错误做些什么
@@ -48,11 +51,10 @@ const httpRequest = async ({ method = 'post', params, url }, callback) => {
     const data =  method === 'get' ? await get(url, { ...params }) : await request[method || 'post'](url, {...params})
     // eslint-disable-next-line no-console
     if(data.code !== 200){
-
+      Message.error(data.message)
       // Taro.showToast({{ title: '网络异常', icon: 'none', duration: 2000 });
       return
     }
-    // TODO: 暂时后端没数据直接返回null，已跟后端沟通后续会改成空数据或空对象
     typeof callback === 'function' && callback.call(this, data.data)
 
     if ( data.data ) {
