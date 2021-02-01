@@ -14,7 +14,7 @@ export default {
 <style lang="less" scope>
     #pageFrame{
         width: 100vw;
-        height: 100vh;
+        height: calc(100vh - 20px);
         background: url('../../assets/momentum.jpg');
         background-size: cover;
         padding-top: 20px;

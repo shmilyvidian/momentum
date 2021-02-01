@@ -1,5 +1,8 @@
 <template>
     <div class="home">
+         <div>{{ count }}</div>
+        <button v-stream:click="plus$">+</button>
+        <button v-stream:click="minus$">-</button>
         <div class="home_weather">{{weather}}</div>
         <div class="home_container">
             <p class="home_container_clock">{{currentTime}}</p>
@@ -12,6 +15,8 @@
     </div>
 </template>
 <script>
+import { merge } from 'rxjs'
+import { startWith, scan, map } from 'rxjs/operators'
 import { getCurrentTime, getSayHiMessage } from '@/utils/common'
 import {
   mapActions,
@@ -21,7 +26,7 @@ export default {
     data(){
         return{
             currentTime: getCurrentTime(),
-            mainFoucs: '',
+            mainFoucs: ''
         }
     },
     computed: {
@@ -35,11 +40,23 @@ export default {
             set() {}
             },
     },
+    domStreams: ['plus$', 'minus$'],
+    subscriptions () {
+        return {
+            count: merge(
+                this.plus$.pipe(map(() => 1)),
+                this.minus$.pipe(map(() => -1))
+            ).pipe(
+                startWith(0),
+                scan((total, change) => total + change)
+            )
+        }
+    },
     mounted() {
         this.getWeather({city: 'shenzhen'})
-       const timer_time = setInterval(()=>{
-           this.currentTime = getCurrentTime()
-       }, 1000)
+        const timer_time = setInterval(()=>{
+            this.currentTime = getCurrentTime()
+        }, 1000)
         this.$once('hook:beforeDestroy', () => {
             // clearInterval(timer);
             clearInterval(timer_time);

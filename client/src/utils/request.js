@@ -55,6 +55,7 @@ const httpRequest = async ({ method = 'post', params, url }, callback) => {
       // Taro.showToast({{ title: '网络异常', icon: 'none', duration: 2000 });
       return
     }
+    // TODO: 暂时后端没数据直接返回null，已跟后端沟通后续会改成空数据或空对象
     typeof callback === 'function' && callback.call(this, data.data)
 
     if ( data.data ) {

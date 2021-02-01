@@ -11,7 +11,6 @@
     </div>
 </template>
 <script>
-import { Observable } from 'rxjs';
 import Cookies from 'js-cookie'
 
 export default {
@@ -20,18 +19,12 @@ export default {
         return {
             userName:'',
             email:'',
-            flag: true,
-            observable_text: Observable.of('hello rxjs')
+            flag: true
         }
     },
     computed: {
         question_title: function(){
             return this.userName ? `What's your email, ${this.userName}` : 'Hello, what\'s your name?'
-        }
-    },
-    subscriptions () {
-        return {
-        observable_text: Observable.of('hello world')
         }
     },
     mounted(){
